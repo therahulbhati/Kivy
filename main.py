@@ -45,7 +45,6 @@ class CurrentWeather(BoxLayout):
     temp_min = NumericProperty()
     temp_max = NumericProperty()
 
-    # BEGIN UPDATE_WEATHER
     def update_weather(self):
         config = WeatherApp.get_running_app().config  # <1>
         temp_type = config.getdefault("General", "temp_type", "metric").lower()  # <2>
@@ -56,7 +55,6 @@ class CurrentWeather(BoxLayout):
             self.location[1], 
             temp_type)  # <4>
         request = UrlRequest(weather_url, self.weather_retrieved)
-    # END UPDATE_WEATHER
         
     def weather_retrieved(self, request, data):
         data = json.loads(data.decode()) if not isinstance(data, dict) else data
@@ -111,8 +109,6 @@ class WeatherRoot(BoxLayout):
         self.clear_widgets()
         self.add_widget(self.locations)
 
-
-# BEGIN WEATHER_APP
 class WeatherApp(App):
     def build_config(self, config):
         config.setdefaults('General', {'temp_type': "Metric"})
@@ -128,16 +124,14 @@ class WeatherApp(App):
                 }
             ]"""
             )
-# END WEATHER_APP
-
-    # BEGIN ON_CONFIG_CHANGE
+            
     def on_config_change(self, config, section, key, value):
         if config is self.config and key == "temp_type":
             try:
                 self.root.children[0].update_weather()
             except AttributeError:
                 pass
-    # END ON_CONFIG_CHANGE
+
 
 if __name__ == '__main__':
 	WeatherApp().run()
