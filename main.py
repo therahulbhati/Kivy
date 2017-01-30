@@ -48,8 +48,7 @@ class CurrentWeather(BoxLayout):
     def update_weather(self):
         config = WeatherApp.get_running_app().config  # <1>
         temp_type = config.getdefault("General", "temp_type", "metric").lower()  # <2>
-        weather_template = "http://api.openweathermap.org/data/2.5/" +
-            "weather?q={},{}&units={}"  # <3>
+        weather_template = "http://api.openweathermap.org/data/2.5/" +"weather?q={},{}&units={}"  # <3>
         weather_url = weather_template.format(
             self.location[0], 
             self.location[1], 
